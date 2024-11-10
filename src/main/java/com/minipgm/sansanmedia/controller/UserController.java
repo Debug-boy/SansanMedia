@@ -17,12 +17,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseResult<String> login(@RequestParam("wxuid") String wxuid) {
-        User user = userService.login(wxuid);
+    public ResponseResult<User> login(@RequestParam("wxopenid") String wxopenid) {
+        User user = userService.login(wxopenid);
         if (user != null) {
             User userDTO = new User(
                     user.getId(),
-                    user.getWxuid(),
+                    user.getWxopenid(),
                     user.getWxid(),
                     user.getWxname(),
                     user.getCustom_name(),
@@ -33,19 +33,8 @@ public class UserController {
                     user.getRegister_time()
             );
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.registerModule(new JavaTimeModule());
-            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-            objectMapper.setDateFormat(new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
+            return ResponseResult.success("登录成功!", userDTO);
 
-            try {
-                String jsonString = objectMapper.writeValueAsString(userDTO);
-                return ResponseResult.success("登录成功!", jsonString);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return ResponseResult.failure("系统错误!");
         } else {
             return ResponseResult.failure("登录失败!");
         }
@@ -65,8 +54,8 @@ public class UserController {
     }
 
     @PostMapping("/delete")
-    public ResponseResult<String> delUser(@RequestParam("wxuid") String wxuid) {
-        boolean success = userService.delUser(wxuid);
+    public ResponseResult<String> delUser(@RequestParam("wxopenid") String wxopenid) {
+        boolean success = userService.delUser(wxopenid);
         if (success) {
             return ResponseResult.success("用户删除成功!", null);
         } else {
@@ -75,8 +64,8 @@ public class UserController {
     }
 
     @PostMapping("/update/name")
-    public ResponseResult<String> updateUserName(@RequestParam("wxuid") String wxuid, @RequestParam("customName") String customName) {
-        boolean success = userService.updateUserName(wxuid, customName);
+    public ResponseResult<String> updateUserName(@RequestParam("wxopenid") String wxopenid, @RequestParam("customName") String customName) {
+        boolean success = userService.updateUserName(wxopenid, customName);
         if (success) {
             return ResponseResult.success("用户名字更新成功!", null);
         } else {
@@ -85,8 +74,8 @@ public class UserController {
     }
 
     @PostMapping("/update/phone")
-    public ResponseResult<String> updateUserPhone(@RequestParam("wxuid") String wxuid, @RequestParam("phone") String phone) {
-        boolean success = userService.updateUserPhone(wxuid, phone);
+    public ResponseResult<String> updateUserPhone(@RequestParam("wxopenid") String wxopenid, @RequestParam("phone") String phone) {
+        boolean success = userService.updateUserPhone(wxopenid, phone);
         if (success) {
             return ResponseResult.success("更新手机号成功!", null);
         } else {
@@ -95,8 +84,8 @@ public class UserController {
     }
 
     @PostMapping("/update/alipayUser")
-    public ResponseResult<String> updateUserAlipayUser(@RequestParam("wxuid") String wxuid, @RequestParam("alipayUser") String alipayUser) {
-        boolean success = userService.updateUserAlipayUser(wxuid, alipayUser);
+    public ResponseResult<String> updateUserAlipayUser(@RequestParam("wxopenid") String wxopenid, @RequestParam("alipayUser") String alipayUser) {
+        boolean success = userService.updateUserAlipayUser(wxopenid, alipayUser);
         if (success) {
             return ResponseResult.success("更新支付宝信息成功!", null);
         } else {

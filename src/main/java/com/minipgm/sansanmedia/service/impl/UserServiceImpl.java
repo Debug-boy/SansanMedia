@@ -16,8 +16,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(String wxuid) {
-        return userMapper.login(wxuid);
+    public User login(String wxopenid) {
+        return userMapper.login(wxopenid);
     }
 
     @Override
@@ -27,26 +27,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean delUser(String wxuid) {
-        int deleteResult = userMapper.delUser(wxuid);
+    public boolean delUser(String wxopenid) {
+        int deleteResult = userMapper.delUser(wxopenid);
         return deleteResult > 0;
     }
 
     @Override
-    public boolean updateUserName(String wxuid, String customName) {
-        int updateResult = userMapper.updateUserName(wxuid, customName);
+    public boolean updateUserName(String wxopenid, String customName) {
+        int updateResult = userMapper.updateUserName(wxopenid, customName);
         return updateResult > 0;
     }
 
     @Override
-    public boolean updateUserPhone(String wxuid, String phone) {
-        int updateResult = userMapper.updateUserPhone(wxuid, phone);
+    public boolean updateUserPhone(String wxopenid, String phone) {
+        int updateResult = userMapper.updateUserPhone(wxopenid, phone);
         return updateResult > 0;
     }
 
     @Override
-    public boolean updateUserAlipayUser(String wxuid, String alipayUser) {
-        return userMapper.updateUserAlipayUser(wxuid, alipayUser) > 0;
+    public boolean updateUserAlipayUser(String wxopenid, String alipayUser) {
+        return userMapper.updateUserAlipayUser(wxopenid, alipayUser) > 0;
     }
 
 }

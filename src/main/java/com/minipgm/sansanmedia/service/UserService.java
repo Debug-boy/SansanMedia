@@ -5,16 +5,16 @@ import com.minipgm.sansanmedia.service.impl.UserServiceImpl;
 
 public interface UserService {
 
-    User login(String wxuid);
+    User login(String wxopenid);
 
     boolean register(User user);
 
-    boolean delUser(String wxuid);
+    boolean delUser(String wxopenid);
 
-    boolean updateUserName(String wxuid,String custom_name);
+    boolean updateUserName(String wxopenid,String custom_name);
 
-    boolean updateUserPhone(String wxuid,String phone);
+    boolean updateUserPhone(String wxopenid,String phone);
 
-    boolean updateUserAlipayUser(String wxuid, String alipayUser);
+    boolean updateUserAlipayUser(String wxopenid, String alipayUser);
 
 }

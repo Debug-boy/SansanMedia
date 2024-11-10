@@ -1,6 +1,5 @@
 package com.minipgm.sansanmedia.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -13,7 +12,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    String wxuid;
+    String wxopenid;
     String wxid;
 
     String wxname;
@@ -35,9 +34,9 @@ public class User {
 
     }
 
-    public User(int id, String wxuid, String wxid, String wxname, String custom_name, String phone,boolean auth, String alipay_user, String register_image,LocalDateTime register_time) {
+    public User(int id, String wxopenid, String wxid, String wxname, String custom_name, String phone, boolean auth, String alipay_user, String register_image, LocalDateTime register_time) {
         this.id = id;
-        this.wxuid = wxuid;
+        this.wxopenid = wxopenid;
         this.wxid = wxid;
         this.wxname = wxname;
         this.custom_name = custom_name;
@@ -56,12 +55,12 @@ public class User {
         this.id = id;
     }
 
-    public String getWxuid() {
-        return wxuid;
+    public String getWxopenid() {
+        return wxopenid;
     }
 
-    public void setWxuid(String wxuid) {
-        this.wxuid = wxuid;
+    public void setWxopenid(String wxuid) {
+        this.wxopenid = wxuid;
     }
 
     public String getWxid() {

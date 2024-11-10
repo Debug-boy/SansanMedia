@@ -16,32 +16,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean login(String wxid) {
-        User user = userMapper.login(wxid);
-        return user != null;
+    public User login(String wxuid) {
+        return userMapper.login(wxuid);
     }
 
     @Override
-    public boolean addUser(User user) {
-        int insertResult = userMapper.insert(user);
+    public boolean register(User user) {
+        int insertResult = userMapper.register(user);
         return insertResult > 0;
     }
 
     @Override
-    public boolean delUser(String wxid) {
-        int deleteResult = userMapper.delUser(wxid);
+    public boolean delUser(String wxuid) {
+        int deleteResult = userMapper.delUser(wxuid);
         return deleteResult > 0;
     }
 
     @Override
-    public boolean updateUserName(String wxid, String customName) {
-        int updateResult = userMapper.updateUserName(wxid, customName);
+    public boolean updateUserName(String wxuid, String customName) {
+        int updateResult = userMapper.updateUserName(wxuid, customName);
         return updateResult > 0;
     }
 
     @Override
-    public boolean updateUserPhone(String wxid, String phone) {
-        int updateResult = userMapper.updateUserPhone(wxid, phone);
+    public boolean updateUserPhone(String wxuid, String phone) {
+        int updateResult = userMapper.updateUserPhone(wxuid, phone);
         return updateResult > 0;
     }
+
+    @Override
+    public boolean updateUserAlipayUser(String wxuid, String alipayUser) {
+        return userMapper.updateUserAlipayUser(wxuid, alipayUser) > 0;
+    }
+
 }

@@ -41,10 +41,25 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseResult<String> addUser(@RequestBody User user) {
-        if(user.getRegister_image().isEmpty()){
-            user.setRegister_image("{}");
-        }
+    public ResponseResult<String> addUser(
+            @RequestParam("wxopenid") String wxopenid,
+            @RequestParam("wxid") String wxid,
+            @RequestParam("wxname") String wxname,
+            @RequestParam("custom_name") String customName,
+            @RequestParam("phone") String phone,
+            @RequestParam("auth") boolean auth,
+            @RequestParam("alipay_user") String alipayUser,
+            @RequestParam(value = "register_image", required = false, defaultValue = "{}") String registerImage
+    ) {
+        User user = new User();
+        user.setWxopenid(wxopenid);
+        user.setWxid(wxid);
+        user.setWxname(wxname);
+        user.setCustom_name(customName);
+        user.setPhone(phone);
+        user.setAuth(auth);
+        user.setAlipay_user(alipayUser);
+        user.setRegister_image(registerImage);
         boolean success = userService.register(user);
         if (success) {
             return ResponseResult.success("用户注册成功!", null);

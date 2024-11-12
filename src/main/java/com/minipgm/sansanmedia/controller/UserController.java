@@ -9,6 +9,10 @@ import com.minipgm.sansanmedia.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -17,8 +21,8 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseResult<User> login(@RequestParam("wxopenid") String wxopenid) {
-        User user = userService.login(wxopenid);
+    public ResponseResult<User> login(@RequestBody Map<String, String> requestData) {
+        User user = userService.login(requestData.get("wxopenid"));
         if (user != null) {
             User userDTO = new User(
                     user.getId(),
@@ -29,7 +33,7 @@ public class UserController {
                     user.getPhone(),
                     user.isAuth(),
                     user.getAlipay_user(),
-                    "",
+                    new ArrayList<String>(),
                     user.getRegister_time()
             );
 
@@ -41,25 +45,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseResult<String> addUser(
-            @RequestParam("wxopenid") String wxopenid,
-            @RequestParam("wxid") String wxid,
-            @RequestParam("wxname") String wxname,
-            @RequestParam("custom_name") String customName,
-            @RequestParam("phone") String phone,
-            @RequestParam("auth") boolean auth,
-            @RequestParam("alipay_user") String alipayUser,
-            @RequestParam(value = "register_image", required = false, defaultValue = "{}") String registerImage
-    ) {
-        User user = new User();
-        user.setWxopenid(wxopenid);
-        user.setWxid(wxid);
-        user.setWxname(wxname);
-        user.setCustom_name(customName);
-        user.setPhone(phone);
-        user.setAuth(auth);
-        user.setAlipay_user(alipayUser);
-        user.setRegister_image(registerImage);
+    public ResponseResult<String> register(@RequestBody User user) {
         boolean success = userService.register(user);
         if (success) {
             return ResponseResult.success("用户注册成功!", null);
@@ -69,8 +55,8 @@ public class UserController {
     }
 
     @PostMapping("/delete")
-    public ResponseResult<String> delUser(@RequestParam("wxopenid") String wxopenid) {
-        boolean success = userService.delUser(wxopenid);
+    public ResponseResult<String> delUser(@RequestBody Map<String, String> requestData) {
+        boolean success = userService.delUser(requestData.get("wxopenid"));
         if (success) {
             return ResponseResult.success("用户删除成功!", null);
         } else {
@@ -79,8 +65,8 @@ public class UserController {
     }
 
     @PostMapping("/update/name")
-    public ResponseResult<String> updateUserName(@RequestParam("wxopenid") String wxopenid, @RequestParam("customName") String customName) {
-        boolean success = userService.updateUserName(wxopenid, customName);
+    public ResponseResult<String> updateUserName(@RequestBody Map<String, String> requestData) {
+        boolean success = userService.updateUserName(requestData.get("wxopenid"),requestData.get("customName"));
         if (success) {
             return ResponseResult.success("用户名字更新成功!", null);
         } else {
@@ -89,8 +75,8 @@ public class UserController {
     }
 
     @PostMapping("/update/phone")
-    public ResponseResult<String> updateUserPhone(@RequestParam("wxopenid") String wxopenid, @RequestParam("phone") String phone) {
-        boolean success = userService.updateUserPhone(wxopenid, phone);
+    public ResponseResult<String> updateUserPhone(@RequestBody Map<String, String> requestData) {
+        boolean success = userService.updateUserPhone(requestData.get("wxopenid"),requestData.get("phone"));
         if (success) {
             return ResponseResult.success("更新手机号成功!", null);
         } else {
@@ -99,8 +85,8 @@ public class UserController {
     }
 
     @PostMapping("/update/alipayUser")
-    public ResponseResult<String> updateUserAlipayUser(@RequestParam("wxopenid") String wxopenid, @RequestParam("alipayUser") String alipayUser) {
-        boolean success = userService.updateUserAlipayUser(wxopenid, alipayUser);
+    public ResponseResult<String> updateUserAlipayUser(@RequestBody Map<String, String> requestData) {
+        boolean success = userService.updateUserAlipayUser(requestData.get("wxopenid"),requestData.get("alipayUser"));
         if (success) {
             return ResponseResult.success("更新支付宝信息成功!", null);
         } else {

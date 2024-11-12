@@ -1,11 +1,17 @@
 package com.minipgm.sansanmedia.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
-@Table(name = "users")
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -25,8 +31,9 @@ public class User {
 
     String alipay_user;
 
-    @Column(columnDefinition = "json")
-    String register_image;
+    @Column(columnDefinition = "longtext")
+    @Convert(converter = ListStringToJsonConverter.class)
+    private List<String> register_image;
 
     private LocalDateTime register_time;
 
@@ -34,7 +41,7 @@ public class User {
 
     }
 
-    public User(int id, String wxopenid, String wxid, String wxname, String custom_name, String phone, boolean auth, String alipay_user, String register_image, LocalDateTime register_time) {
+    public User(int id, String wxopenid, String wxid, String wxname, String custom_name, String phone, boolean auth, String alipay_user, List<String> register_image, LocalDateTime register_time) {
         this.id = id;
         this.wxopenid = wxopenid;
         this.wxid = wxid;
@@ -111,11 +118,11 @@ public class User {
         this.alipay_user = alipay_user;
     }
 
-    public String getRegister_image() {
+    public List<String> getRegister_image() {
         return register_image;
     }
 
-    public void setRegister_image(String register_image) {
+    public void setRegister_image(List<String> register_image) {
         this.register_image = register_image;
     }
 

@@ -36,9 +36,7 @@ public class UserController {
                     new ArrayList<String>(),
                     user.getRegister_time()
             );
-
             return ResponseResult.success("登录成功!", userDTO);
-
         } else {
             return ResponseResult.failure("登录失败!");
         }
@@ -46,6 +44,15 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseResult<String> register(@RequestBody User user) {
+
+        if(user.getWxopenid().isEmpty()){
+            return ResponseResult.failure("注册用户失败,wxopenid字段为空!");
+        }
+
+        if(userService.login(user.getWxopenid()) != null){
+            return ResponseResult.failure("注册用户失败,用户已存在!");
+        }
+
         boolean success = userService.register(user);
         if (success) {
             return ResponseResult.success("用户注册成功!", null);

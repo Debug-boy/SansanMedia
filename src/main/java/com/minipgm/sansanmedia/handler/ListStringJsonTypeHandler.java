@@ -1,4 +1,4 @@
-package com.minipgm.sansanmedia.entity;
+package com.minipgm.sansanmedia.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +9,6 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 public class ListStringJsonTypeHandler extends BaseTypeHandler<List<String>> {

@@ -10,7 +10,7 @@ public interface UserMapper {
     User login(@Param("wxopenid") String wxopenid);
 
     @Insert("INSERT INTO users (wxopenid, wxid, wxname, custom_name, phone,auth, alipay_user, register_image, register_time) " +
-            "VALUES (#{user.wxopenid}, #{user.wxid}, #{user.wxname}, #{user.custom_name}, #{user.phone},#{user.auth}, #{user.alipay_user}, #{user.register_image,typeHandler=com.minipgm.sansanmedia.entity.ListStringJsonTypeHandler}, #{user.register_time})")
+            "VALUES (#{user.wxopenid}, #{user.wxid}, #{user.wxname}, #{user.custom_name}, #{user.phone},#{user.auth}, #{user.alipay_user}, #{user.register_image,typeHandler=com.minipgm.sansanmedia.handler.ListStringJsonTypeHandler}, #{user.register_time})")
     int register(@Param("user") User user);
 
     @Delete("DELETE FROM users WHERE wxopenid = #{wxopenid}")

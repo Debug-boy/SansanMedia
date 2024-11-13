@@ -1,7 +1,6 @@
 package com.minipgm.sansanmedia.entity;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.minipgm.sansanmedia.handler.ListStringToJsonConverter;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,38 +13,66 @@ public class UploadRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private String wxopenid;
+
     private String wxid;
 
     private LocalDateTime upload_time;
 
-    @Column(columnDefinition = "json")
-    private String image_base64;
+    @Column(columnDefinition = "longtext")
+    @Convert(converter = ListStringToJsonConverter.class)
+    private List<String> image_base64;
 
     public UploadRecord() {
+
     }
 
-    public UploadRecord(int id, String wxid, LocalDateTime upload_time, String image_base64) {
+    public UploadRecord(int id, String wxopenid, String wxid, LocalDateTime upload_time, List<String> image_base64) {
         this.id = id;
+        this.wxopenid = wxopenid;
         this.wxid = wxid;
         this.upload_time = upload_time;
         this.image_base64 = image_base64;
     }
 
-    public UploadRecord(String wxid, LocalDateTime upload_time, List<String> images) throws JsonProcessingException {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getWxopenid() {
+        return wxopenid;
+    }
+
+    public void setWxopenid(String wxopenid) {
+        this.wxopenid = wxopenid;
+    }
+
+
+    public String getWxid() {
+        return wxid;
+    }
+
+    public void setWxid(String wxid) {
         this.wxid = wxid;
+    }
+
+    public LocalDateTime getUpload_time() {
+        return upload_time;
+    }
+
+    public void setUpload_time(LocalDateTime upload_time) {
         this.upload_time = upload_time;
-        this.image_base64 = new ObjectMapper().writeValueAsString(images);
     }
 
-    //... getters and setters ...
-
-    public List<String> getImageList() throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(this.image_base64, objectMapper.getTypeFactory().constructCollectionType(List.class, String.class));
+    public List<String> getImage_base64() {
+        return image_base64;
     }
 
-    public void setImageList(List<String> images) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        this.image_base64 = objectMapper.writeValueAsString(images);
+    public void setImage_base64(List<String> image_base64) {
+        this.image_base64 = image_base64;
     }
 }

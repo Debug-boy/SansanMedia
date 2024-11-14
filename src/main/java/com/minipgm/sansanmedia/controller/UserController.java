@@ -22,6 +22,11 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseResult<User> login(@RequestBody Map<String, String> requestData) {
+
+        if(requestData.get("wxopenid").isEmpty()){
+            return ResponseResult.failure("wxopenid字段为空!");
+        }
+
         User user = userService.login(requestData.get("wxopenid"));
         if (user != null) {
             User userDTO = new User(
@@ -63,6 +68,11 @@ public class UserController {
 
     @PostMapping("/delete")
     public ResponseResult<String> delUser(@RequestBody Map<String, String> requestData) {
+
+        if(requestData.get("wxopenid").isEmpty()){
+            return ResponseResult.failure("wxopenid字段为空!");
+        }
+
         boolean success = userService.delUser(requestData.get("wxopenid"));
         if (success) {
             return ResponseResult.success("用户删除成功!", null);
@@ -73,6 +83,11 @@ public class UserController {
 
     @PostMapping("/update/customName")
     public ResponseResult<String> updateUserCustomName(@RequestBody Map<String, String> requestData) {
+
+        if(requestData.get("wxopenid").isEmpty()){
+            return ResponseResult.failure("wxopenid字段为空!");
+        }
+
         boolean success = userService.updateUserCustomName(requestData.get("wxopenid"),requestData.get("customName"));
         if (success) {
             return ResponseResult.success("更新自定义名字成功!", null);
@@ -83,6 +98,11 @@ public class UserController {
 
     @PostMapping("/update/wxName")
     public ResponseResult<String> updateUserWxName(@RequestBody Map<String, String> requestData) {
+
+        if(requestData.get("wxopenid").isEmpty()){
+            return ResponseResult.failure("wxopenid字段为空!");
+        }
+
         boolean success = userService.updateUserWxName(requestData.get("wxopenid"),requestData.get("wxName"));
         if (success) {
             return ResponseResult.success("更新微信名称字成功!", null);
@@ -93,6 +113,11 @@ public class UserController {
 
     @PostMapping("/update/phone")
     public ResponseResult<String> updateUserPhone(@RequestBody Map<String, String> requestData) {
+
+        if(requestData.get("wxopenid").isEmpty()){
+            return ResponseResult.failure("wxopenid字段为空!");
+        }
+
         boolean success = userService.updateUserPhone(requestData.get("wxopenid"),requestData.get("phone"));
         if (success) {
             return ResponseResult.success("更新手机号成功!", null);
@@ -103,6 +128,11 @@ public class UserController {
 
     @PostMapping("/update/alipayUser")
     public ResponseResult<String> updateUserAlipayUser(@RequestBody Map<String, String> requestData) {
+
+        if(requestData.get("wxopenid").isEmpty()){
+            return ResponseResult.failure("wxopenid字段为空!");
+        }
+
         boolean success = userService.updateUserAlipayUser(requestData.get("wxopenid"),requestData.get("alipayUser"));
         if (success) {
             return ResponseResult.success("更新支付宝信息成功!", null);

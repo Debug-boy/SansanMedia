@@ -33,8 +33,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUserName(String wxopenid, String customName) {
-        int updateResult = userMapper.updateUserName(wxopenid, customName);
+    public boolean updateUserCustomName(String wxopenid, String customName) {
+        int updateResult = userMapper.updateUserCustomName(wxopenid, customName);
+        return updateResult > 0;
+    }
+
+    @Override
+    public boolean updateUserWxName(String wxopenid, String wxName) {
+        int updateResult = userMapper.updateUserWxName(wxopenid, wxName);
         return updateResult > 0;
     }
 

@@ -17,7 +17,10 @@ public interface UserMapper {
     int delUser(@Param("wxopenid") String wxopenid);
 
     @Update("UPDATE users SET custom_name = #{customName} WHERE wxopenid = #{wxopenid}")
-    int updateUserName(@Param("wxopenid") String wxopenid, @Param("customName") String customName);
+    int updateUserCustomName(@Param("wxopenid") String wxopenid, @Param("customName") String customName);
+
+    @Update("UPDATE users SET wxname = #{wxName} WHERE wxopenid = #{wxopenid}")
+    int updateUserWxName(@Param("wxopenid") String wxopenid, @Param("wxName") String wxName);
 
     @Update("UPDATE users SET phone = #{phone} WHERE wxopenid = #{wxopenid}")
     int updateUserPhone(@Param("wxopenid") String wxopenid, @Param("phone") String phone);

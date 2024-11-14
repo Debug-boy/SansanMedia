@@ -71,13 +71,23 @@ public class UserController {
         }
     }
 
-    @PostMapping("/update/name")
-    public ResponseResult<String> updateUserName(@RequestBody Map<String, String> requestData) {
-        boolean success = userService.updateUserName(requestData.get("wxopenid"),requestData.get("customName"));
+    @PostMapping("/update/customName")
+    public ResponseResult<String> updateUserCustomName(@RequestBody Map<String, String> requestData) {
+        boolean success = userService.updateUserCustomName(requestData.get("wxopenid"),requestData.get("customName"));
         if (success) {
-            return ResponseResult.success("用户名字更新成功!", null);
+            return ResponseResult.success("更新自定义名字成功!", null);
         } else {
-            return ResponseResult.failure("更新用户名字失败!");
+            return ResponseResult.failure("更新自定义名字失败!");
+        }
+    }
+
+    @PostMapping("/update/wxName")
+    public ResponseResult<String> updateUserWxName(@RequestBody Map<String, String> requestData) {
+        boolean success = userService.updateUserWxName(requestData.get("wxopenid"),requestData.get("wxName"));
+        if (success) {
+            return ResponseResult.success("更新微信名称字成功!", null);
+        } else {
+            return ResponseResult.failure("更新微信名称字失败!");
         }
     }
 

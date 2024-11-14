@@ -33,6 +33,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean updateUserAuth(String wxopenid, boolean auth) {
+        int updateResult = userMapper.updateUserAuth(wxopenid, auth);
+        return updateResult > 0;
+    }
+
+    @Override
     public boolean updateUserCustomName(String wxopenid, String customName) {
         int updateResult = userMapper.updateUserCustomName(wxopenid, customName);
         return updateResult > 0;

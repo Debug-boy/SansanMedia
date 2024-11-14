@@ -11,6 +11,8 @@ public interface UserService {
 
     boolean delUser(String wxopenid);
 
+    boolean updateUserAuth(String wxopenid,boolean auth);
+
     boolean updateUserCustomName(String wxopenid,String customName);
 
     boolean updateUserWxName(String wxopenid,String wxName);

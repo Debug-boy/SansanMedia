@@ -81,7 +81,22 @@ public class UserController {
         if (success) {
             return ResponseResult.success("用户删除成功!", null);
         } else {
-            return ResponseResult.failure("删除用户失败!");
+            return ResponseResult.failure("删除用户失败,用户可能不存在!");
+        }
+    }
+
+    @PostMapping("/update/auth")
+    public ResponseResult<String> updateUserAuth(@RequestBody Map<String, String> requestData) {
+
+        if(requestData.get("wxopenid").isEmpty()){
+            return ResponseResult.failure("wxopenid字段为空!");
+        }
+
+        boolean success = userService.updateUserAuth(requestData.get("wxopenid"), Boolean.parseBoolean(requestData.get("auth")));
+        if (success) {
+            return ResponseResult.success("更新用户认证成功!", null);
+        } else {
+            return ResponseResult.failure("更新用户认证失败,用户可能不存在!");
         }
     }
 
@@ -96,7 +111,7 @@ public class UserController {
         if (success) {
             return ResponseResult.success("更新自定义名字成功!", null);
         } else {
-            return ResponseResult.failure("更新自定义名字失败!");
+            return ResponseResult.failure("更新自定义名字失败,用户可能不存在!");
         }
     }
 
@@ -111,7 +126,7 @@ public class UserController {
         if (success) {
             return ResponseResult.success("更新微信名称字成功!", null);
         } else {
-            return ResponseResult.failure("更新微信名称字失败!");
+            return ResponseResult.failure("更新微信名称字失败,用户可能不存在!");
         }
     }
 
@@ -126,7 +141,7 @@ public class UserController {
         if (success) {
             return ResponseResult.success("更新手机号成功!", null);
         } else {
-            return ResponseResult.failure("更新手机号失败!");
+            return ResponseResult.failure("更新手机号失败,用户可能不存在!");
         }
     }
 
@@ -141,7 +156,7 @@ public class UserController {
         if (success) {
             return ResponseResult.success("更新支付宝信息成功!", null);
         } else {
-            return ResponseResult.failure("更新支付宝信息失败!");
+            return ResponseResult.failure("更新支付宝信息失败,用户可能不存在!");
         }
     }
 

@@ -16,6 +16,9 @@ public interface UserMapper {
     @Delete("DELETE FROM users WHERE wxopenid = #{wxopenid}")
     int delUser(@Param("wxopenid") String wxopenid);
 
+    @Update("UPDATE users SET auth = #{auth} WHERE wxopenid = #{wxopenid}")
+    int updateUserAuth(@Param("wxopenid") String wxopenid, @Param("auth") boolean auth);
+
     @Update("UPDATE users SET custom_name = #{customName} WHERE wxopenid = #{wxopenid}")
     int updateUserCustomName(@Param("wxopenid") String wxopenid, @Param("customName") String customName);
 

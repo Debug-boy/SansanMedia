@@ -54,6 +54,10 @@ public class UserController {
             return ResponseResult.failure("注册用户失败,wxopenid字段为空!");
         }
 
+        if(user.getRegister_image().isEmpty()){
+            return ResponseResult.failure("注册用户失败,图片为空!");
+        }
+
         if(userService.login(user.getWxopenid()) != null){
             return ResponseResult.failure("注册用户失败,用户已存在!");
         }

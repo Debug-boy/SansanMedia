@@ -1,11 +1,10 @@
 package com.minipgm.sansanmedia.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.minipgm.sansanmedia.entity.ResponseResult;
 import com.minipgm.sansanmedia.entity.User;
 import com.minipgm.sansanmedia.entity.WeChatResponse;
 import org.apache.tomcat.util.json.JSONParser;
+import com.minipgm.sansanmedia.entity.WeChatResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +42,6 @@ public class OpenidController {
 
         if (responseEntity.getStatusCode().is2xxSuccessful() && responseEntity.getBody() != null) {
             String responseBody = responseEntity.getBody();
-            ObjectMapper objectMapper = new ObjectMapper();
 
             try {
                 if (responseBody.contains("\"openid\"")) {

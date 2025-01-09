@@ -1,5 +1,6 @@
 package com.minipgm.sansanmedia.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minipgm.sansanmedia.entity.ResponseResult;
 import com.minipgm.sansanmedia.entity.User;
 import com.minipgm.sansanmedia.entity.WeChatResponse;
@@ -12,10 +13,12 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
+
 @RestController
 @RequestMapping("/openid")
 public class OpenidController {
 
+    private final ObjectMapper jacksonObjectMapper;
     @Value("${wechat.appid}")
     private String appid;
 
@@ -24,8 +27,9 @@ public class OpenidController {
 
     private final RestTemplate restTemplate;
 
-    public OpenidController(RestTemplate restTemplate) {
+    public OpenidController(RestTemplate restTemplate, ObjectMapper jacksonObjectMapper) {
         this.restTemplate = restTemplate;
+        this.jacksonObjectMapper = jacksonObjectMapper;
     }
 
     @PostMapping("/getUserOpenid")
@@ -45,6 +49,7 @@ public class OpenidController {
 
             try {
                 if (responseBody.contains("\"openid\"")) {
+                    ObjectMapper objectMapper = new ObjectMapper();
                     WeChatResponse weChatResponse = objectMapper.readValue(responseBody, WeChatResponse.class);
                     return ResponseResult.success(weChatResponse);
                 } else {

@@ -1,7 +1,11 @@
 package com.minipgm.sansanmedia.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.minipgm.sansanmedia.entity.ResponseResult;
 import com.minipgm.sansanmedia.entity.User;
+import com.minipgm.sansanmedia.entity.WeChatResponse;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +30,7 @@ public class OpenidController {
     }
 
     @PostMapping("/getUserOpenid")
-    public ResponseResult<String> getUserOpenid(@RequestBody Map<String, String> requestData) {
+    public ResponseResult<WeChatResponse> getUserOpenid(@RequestBody Map<String, String> requestData) {
         if (requestData.get("code").isEmpty()) {
             return ResponseResult.failure("code字段为空!");
         }
@@ -34,16 +38,26 @@ public class OpenidController {
         String code = requestData.get("code");
         String url = String.format("https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code&connect_redirect=1", appid, secret, code);
 
-        // 发送 GET 请求
+        // 发送请求，获取 JSON 响应
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
-        // 如果请求成功
-        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+        if (responseEntity.getStatusCode().is2xxSuccessful() && responseEntity.getBody() != null) {
             String responseBody = responseEntity.getBody();
+            ObjectMapper objectMapper = new ObjectMapper();
 
-            return ResponseResult.success(responseBody);
+            try {
+                if (responseBody.contains("\"openid\"")) {
+                    WeChatResponse weChatResponse = objectMapper.readValue(responseBody, WeChatResponse.class);
+                    return ResponseResult.success(weChatResponse);
+                } else {
+                    return ResponseResult.failure("请求微信接口失败");
+                }
+            } catch (Exception e) {
+                return ResponseResult.failure("解析微信响应失败: " + e.getMessage());
+            }
         } else {
             return ResponseResult.failure("请求微信接口失败");
         }
     }
+
 }

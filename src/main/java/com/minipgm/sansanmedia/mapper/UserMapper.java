@@ -1,12 +1,16 @@
 package com.minipgm.sansanmedia.mapper;
 
 import com.minipgm.sansanmedia.entity.User;
+import com.minipgm.sansanmedia.handler.ListStringTypeHandler;
 import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface UserMapper {
 
     @Select("SELECT * FROM users WHERE wxopenid = #{wxopenid}")
+    @Results({
+            @Result(property = "register_image", column = "register_image", typeHandler = ListStringTypeHandler.class)
+    })
     User login(@Param("wxopenid") String wxopenid);
 
     @Insert("INSERT INTO users (wxopenid, wxid, wxname, custom_name, phone,auth, alipay_user, register_image, register_time) " +

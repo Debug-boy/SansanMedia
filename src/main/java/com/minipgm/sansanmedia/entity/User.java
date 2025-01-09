@@ -4,6 +4,7 @@ import com.minipgm.sansanmedia.handler.ListStringToJsonConverter;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,7 +30,7 @@ public class User {
 
     @Column(columnDefinition = "longtext")
     @Convert(converter = ListStringToJsonConverter.class)
-    private List<String> register_image;
+    private List<String> register_image = new ArrayList<>();
 
     private LocalDateTime register_time;
 

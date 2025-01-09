@@ -5,7 +5,11 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.minipgm.sansanmedia.entity.ResponseResult;
 import com.minipgm.sansanmedia.entity.User;
+import com.minipgm.sansanmedia.mapper.SubsribeMapper;
+import com.minipgm.sansanmedia.mapper.SubsribeTaskMapper;
+import com.minipgm.sansanmedia.mapper.UserMapper;
 import com.minipgm.sansanmedia.service.UserService;
+import com.minipgm.sansanmedia.service.impl.SubscribeTaskServerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +23,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    SubscribeTaskServerImpl subscribeTaskServer;
 
     @PostMapping("/login")
     public ResponseResult<User> login(@RequestBody Map<String, String> requestData) {
@@ -64,6 +71,11 @@ public class UserController {
 
         boolean success = userService.register(user);
         if (success) {
+
+            //new create subscribe_task table database;
+            //need add user wxopenid and wxname and urls to table;
+            subscribeTaskServer.initUserTask(user.getWxopenid(),user.getWxname());
+
             return ResponseResult.success("用户注册成功!", null);
         } else {
             return ResponseResult.failure("注册用户失败!");
@@ -79,6 +91,7 @@ public class UserController {
 
         boolean success = userService.delUser(requestData.get("wxopenid"));
         if (success) {
+            subscribeTaskServer.deleteUserSubscribeTask(requestData.get("wxopenid"));
             return ResponseResult.success("用户删除成功!", null);
         } else {
             return ResponseResult.failure("删除用户失败,用户可能不存在!");
@@ -124,10 +137,12 @@ public class UserController {
 
         boolean success = userService.updateUserWxName(requestData.get("wxopenid"),requestData.get("wxName"));
         if (success) {
+            subscribeTaskServer.updateUserWxName(requestData.get("wxopenid"),requestData.get("wxName"));
             return ResponseResult.success("更新微信名称字成功!", null);
         } else {
             return ResponseResult.failure("更新微信名称字失败,用户可能不存在!");
         }
+
     }
 
     @PostMapping("/update/phone")
